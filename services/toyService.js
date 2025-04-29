@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { utilService } from './util.service'
+import { utilService } from './util.service.js'
 
 const PAGE_SIZE = 6
 const toys = utilService.readJsonFile('data/toy.json')

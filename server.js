@@ -2,8 +2,8 @@ import cookieParser from 'cookie-parser'
 import express from 'express'
 import cors from 'cors'
 import path from 'path'
-import { toyService } from './services/toyService'
-import { loggerService } from './services/loggerService'
+import { toyService } from './services/toyService.js'
+import { loggerService } from './services/loggerService.js'
 
 const app = express()
 
@@ -125,11 +125,13 @@ app.delete('/api/toy/:toyId', (req, res) => {
 // })
 
 // Fallback
-app.get('/**', (req, res) => {
-  res.sendFile(path.resolve('public/index.html'))
-})
+// app.get('/**', (req, res) => {
+//   res.sendFile(path.resolve('public/index.html'))
+// })
 
 const port = process.env.PORT || 3030
 app.listen(port, () => {
   loggerService.info(`Server listening on port http://127.0.0.1:${port}/`)
 })
+
+// http://127.0.0.1:3030/

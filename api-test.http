@@ -1,0 +1,3 @@
+### Get all toys
+GET http://localhost:3030/api/toy
+Content-Type: application/json

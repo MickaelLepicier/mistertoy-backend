@@ -86,7 +86,6 @@ async function save(toy) {
 
   await _saveToysToFile()
   return toy
-  // return _saveToysToFile().then(() => toy)
 }
 
 function getLabels() {

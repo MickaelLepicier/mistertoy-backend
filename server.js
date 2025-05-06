@@ -38,14 +38,6 @@ app.get('/api/toy', async (req, res) => {
     loggerService.error('Cannot load toys', err)
     res.status(400).send('Cannot load toys')
   }
-
-  // toyService
-  //   .query(filterBy, sortBy, +pageIdx)
-  //   .then((toys) => res.send(toys))
-  //   .catch((err) => {
-  //     loggerService.error('Cannot load toys', err)
-  //     res.status(400).send('Cannot load toys')
-  //   })
 })
 
 app.get('/api/toy/labels', async (req, res) => {
@@ -56,16 +48,6 @@ app.get('/api/toy/labels', async (req, res) => {
     loggerService.error('Cannot get labels', err)
     res.status(400).send(err)
   }
-
-  // return toyService
-  //   .getLabels()
-  //   .then((labels) => {
-  //     res.send(labels)
-  //   })
-  //   .catch((err) => {
-  //     loggerService.error('Cannot get labels', err)
-  //     res.status(400).send(err)
-  //   })
 })
 
 app.get('/api/toy/labels/count', async (req, res) => {
@@ -76,14 +58,6 @@ app.get('/api/toy/labels/count', async (req, res) => {
     loggerService.error('Cannot get labels count', err)
     res.status(400).send(err)
   }
-
-  // return toyService
-  //   .getLabelsCount()
-  //   .then((labelsCount) => res.send(labelsCount))
-  //   .catch((err) => {
-  //     loggerService.error('Cannot get labels count', err)
-  //     res.status(400).send(err)
-  //   })
 })
 
 app.get('/api/toy/:toyId', async (req, res) => {
@@ -96,14 +70,6 @@ app.get('/api/toy/:toyId', async (req, res) => {
     loggerService.error('Cannot get toy', err)
     res.status(400).send(err)
   }
-
-  // return toyService
-  //   .get(toyId)
-  //   .then((toy) => res.send(toy))
-  //   .catch((err) => {
-  //     loggerService.error('Cannot get toy', err)
-  //     res.status(400).send(err)
-  //   })
 })
 
 app.post('/api/toy', async (req, res) => {
@@ -121,14 +87,6 @@ app.post('/api/toy', async (req, res) => {
     loggerService.error('Cannot add toy', err)
     res.status(400).send('Cannot add toy')
   }
-
-  // toyService
-  //   .save(toy)
-  //   .then((savedToy) => res.send(savedToy))
-  //   .catch((err) => {
-  //     loggerService.error('Cannot add toy', err)
-  //     res.status(400).send('Cannot add toy')
-  //   })
 })
 
 app.put('/api/toy', async (req, res) => {
@@ -148,14 +106,6 @@ app.put('/api/toy', async (req, res) => {
     loggerService.error('Cannot update toy', err)
     res.status(400).send('Cannot update toy')
   }
-
-  // toyService
-  //   .save(toy)
-  //   .then((savedToy) => res.send(savedToy))
-  //   .catch((err) => {
-  //     loggerService.error('Cannot update toy', err)
-  //     res.status(400).send('Cannot update toy')
-  //   })
 })
 
 app.delete('/api/toy/:toyId', async (req, res) => {
@@ -168,16 +118,6 @@ app.delete('/api/toy/:toyId', async (req, res) => {
     loggerService.error('Cannot delete toy', err)
     res.status(400).send('Cannot delete toy')
   }
-
-  // toyService
-  //   .remove(toyId)
-  //   .then(() => {
-  //     res.send()
-  //   })
-  //   .catch((err) => {
-  //     loggerService.error('Cannot delete toy', err)
-  //     res.status(400).send('Cannot delete toy', err)
-  //   })
 })
 
 //* In production with Render

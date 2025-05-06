@@ -28,67 +28,110 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // **************** Toys API ****************:
-app.get('/api/toy', (req, res) => {
+app.get('/api/toy', async (req, res) => {
   const { filterBy = {}, sortBy = {}, pageIdx = 0 } = req.query
-  toyService
-    .query(filterBy, sortBy, +pageIdx)
-    .then((toys) => res.send(toys))
-    .catch((err) => {
-      loggerService.error('Cannot load toys', err)
-      res.status(400).send('Cannot load toys')
-    })
+
+  try {
+    const toys = await toyService.query(filterBy, sortBy, +pageIdx)
+    res.send(toys)
+  } catch (err) {
+    loggerService.error('Cannot load toys', err)
+    res.status(400).send('Cannot load toys')
+  }
+
+  // toyService
+  //   .query(filterBy, sortBy, +pageIdx)
+  //   .then((toys) => res.send(toys))
+  //   .catch((err) => {
+  //     loggerService.error('Cannot load toys', err)
+  //     res.status(400).send('Cannot load toys')
+  //   })
 })
 
-app.get('/api/toy/labels', (req, res) => {
-  return toyService
-    .getLabels()
-    .then((labels) => {
-      res.send(labels)
-    })
-    .catch((err) => {
-      loggerService.error('Cannot get labels', err)
-      res.status(400).send(err)
-    })
+app.get('/api/toy/labels', async (req, res) => {
+  try {
+    const labels = await toyService.getLabels()
+    res.send(labels)
+  } catch (err) {
+    loggerService.error('Cannot get labels', err)
+    res.status(400).send(err)
+  }
+
+  // return toyService
+  //   .getLabels()
+  //   .then((labels) => {
+  //     res.send(labels)
+  //   })
+  //   .catch((err) => {
+  //     loggerService.error('Cannot get labels', err)
+  //     res.status(400).send(err)
+  //   })
 })
 
-app.get('/api/toy/labels/count', (req, res) => {
-  return toyService
-    .getLabelsCount()
-    .then((labelsCount) => res.send(labelsCount))
-    .catch((err) => {
-      loggerService.error('Cannot get labels count', err)
-      res.status(400).send(err)
-    })
+app.get('/api/toy/labels/count', async (req, res) => {
+  try {
+    const labelsCount = await toyService.getLabelsCount()
+    res.send(labelsCount)
+  } catch (err) {
+    loggerService.error('Cannot get labels count', err)
+    res.status(400).send(err)
+  }
+
+  // return toyService
+  //   .getLabelsCount()
+  //   .then((labelsCount) => res.send(labelsCount))
+  //   .catch((err) => {
+  //     loggerService.error('Cannot get labels count', err)
+  //     res.status(400).send(err)
+  //   })
 })
 
-app.get('/api/toy/:toyId', (req, res) => {
+app.get('/api/toy/:toyId', async (req, res) => {
   const { toyId } = req.params
-  return toyService
-    .get(toyId)
-    .then((toy) => res.send(toy))
-    .catch((err) => {
-      loggerService.error('Cannot get toy', err)
-      res.status(400).send(err)
-    })
+
+  try {
+    const toy = await toyService.get(toyId)
+    res.send(toy)
+  } catch (err) {
+    loggerService.error('Cannot get toy', err)
+    res.status(400).send(err)
+  }
+
+  // return toyService
+  //   .get(toyId)
+  //   .then((toy) => res.send(toy))
+  //   .catch((err) => {
+  //     loggerService.error('Cannot get toy', err)
+  //     res.status(400).send(err)
+  //   })
 })
 
-app.post('/api/toy', (req, res) => {
+app.post('/api/toy', async (req, res) => {
   const { name, price, labels } = req.body
   const toy = {
     name,
     price: +price,
     labels
   }
-  toyService
-    .save(toy)
-    .then((savedToy) => res.send(savedToy))
-    .catch((err) => {
-      loggerService.error('Cannot add toy', err)
-      res.status(400).send('Cannot add toy')
-    })
+
+  try {
+    const savedToy = await toyService.save(toy)
+    res.send(savedToy)
+  } catch (err) {
+    loggerService.error('Cannot add toy', err)
+    res.status(400).send('Cannot add toy')
+  }
+
+  // toyService
+  //   .save(toy)
+  //   .then((savedToy) => res.send(savedToy))
+  //   .catch((err) => {
+  //     loggerService.error('Cannot add toy', err)
+  //     res.status(400).send('Cannot add toy')
+  //   })
 })
 
-app.put('/api/toy', (req, res) => {
+app.put('/api/toy', async (req, res) => {
   const { name, price, _id, labels, inStock } = req.body
   const toy = {
     _id,
@@ -97,26 +140,44 @@ app.put('/api/toy', (req, res) => {
     labels,
     inStock
   }
-  toyService
-    .save(toy)
-    .then((savedToy) => res.send(savedToy))
-    .catch((err) => {
-      loggerService.error('Cannot update toy', err)
-      res.status(400).send('Cannot update toy')
-    })
+
+  try {
+    const savedToy = await toyService.save(toy)
+    res.send(savedToy)
+  } catch (err) {
+    loggerService.error('Cannot update toy', err)
+    res.status(400).send('Cannot update toy')
+  }
+
+  // toyService
+  //   .save(toy)
+  //   .then((savedToy) => res.send(savedToy))
+  //   .catch((err) => {
+  //     loggerService.error('Cannot update toy', err)
+  //     res.status(400).send('Cannot update toy')
+  //   })
 })
 
-app.delete('/api/toy/:toyId', (req, res) => {
+app.delete('/api/toy/:toyId', async (req, res) => {
   const { toyId } = req.params
-  toyService
-    .remove(toyId)
-    .then(() => {
-      res.send()
-    })
-    .catch((err) => {
-      loggerService.error('Cannot delete toy', err)
-      res.status(400).send('Cannot delete toy', err)
-    })
+
+  try {
+    await toyService.remove(toyId)
+    res.send()
+  } catch (err) {
+    loggerService.error('Cannot delete toy', err)
+    res.status(400).send('Cannot delete toy')
+  }
+
+  // toyService
+  //   .remove(toyId)
+  //   .then(() => {
+  //     res.send()
+  //   })
+  //   .catch((err) => {
+  //     loggerService.error('Cannot delete toy', err)
+  //     res.status(400).send('Cannot delete toy', err)
+  //   })
 })
 
 //* In production with Render

@@ -73,7 +73,7 @@ function remove(toyId) {
   return _saveToysToFile()
 }
 
-function save(toy) {
+async function save(toy) {
   if (toy._id) {
     const idx = toys.findIndex((currToy) => currToy._id === toy._id)
     toys[idx] = { ...toys[idx], ...toy }
@@ -83,7 +83,10 @@ function save(toy) {
     toy.inStock = true
     toys.unshift(toy)
   }
-  return _saveToysToFile().then(() => toy)
+
+  await _saveToysToFile()
+  return toy
+  // return _saveToysToFile().then(() => toy)
 }
 
 function getLabels() {
@@ -92,11 +95,11 @@ function getLabels() {
 
 function getLabelsCount() {
   const labelCounts = {}
-  toys.forEach(toy=>{
-    toy.labels.forEach(label=>{
-        if(!labelCounts[label]) labelCounts[label] = {total: 0, inStock: 0}
-        labelCounts[label].total++
-        if(toy.inStock) labelCounts[label].inStock++
+  toys.forEach((toy) => {
+    toy.labels.forEach((label) => {
+      if (!labelCounts[label]) labelCounts[label] = { total: 0, inStock: 0 }
+      labelCounts[label].total++
+      if (toy.inStock) labelCounts[label].inStock++
     })
   })
   return Promise.resolve(labelCounts)

@@ -33,30 +33,30 @@ app.get('/api/toy', async (req, res) => {
 
   try {
     const toys = await toyService.query(filterBy, sortBy, +pageIdx)
-    res.send(toys)
+    res.status(200).send(toys)
   } catch (err) {
     loggerService.error('Cannot load toys', err)
-    res.status(400).send('Cannot load toys')
+    res.status(500).send('Cannot load toys')
   }
 })
 
 app.get('/api/toy/labels', async (req, res) => {
   try {
     const labels = await toyService.getLabels()
-    res.send(labels)
+    res.status(200).send(labels)
   } catch (err) {
     loggerService.error('Cannot get labels', err)
-    res.status(400).send(err)
+    res.status(500).send(err)
   }
 })
 
 app.get('/api/toy/labels/count', async (req, res) => {
   try {
     const labelsCount = await toyService.getLabelsCount()
-    res.send(labelsCount)
+    res.status(200).send(labelsCount)
   } catch (err) {
     loggerService.error('Cannot get labels count', err)
-    res.status(400).send(err)
+    res.status(500).send(err)
   }
 })
 
@@ -65,10 +65,10 @@ app.get('/api/toy/:toyId', async (req, res) => {
 
   try {
     const toy = await toyService.get(toyId)
-    res.send(toy)
+    res.status(200).send(toy)
   } catch (err) {
     loggerService.error('Cannot get toy', err)
-    res.status(400).send(err)
+    res.status(500).send(err)
   }
 })
 
@@ -82,10 +82,10 @@ app.post('/api/toy', async (req, res) => {
 
   try {
     const savedToy = await toyService.save(toy)
-    res.send(savedToy)
+    res.status(200).send(savedToy)
   } catch (err) {
     loggerService.error('Cannot add toy', err)
-    res.status(400).send('Cannot add toy')
+    res.status(500).send('Cannot add toy')
   }
 })
 
@@ -101,10 +101,10 @@ app.put('/api/toy', async (req, res) => {
 
   try {
     const savedToy = await toyService.save(toy)
-    res.send(savedToy)
+    res.status(200).send(savedToy)
   } catch (err) {
     loggerService.error('Cannot update toy', err)
-    res.status(400).send('Cannot update toy')
+    res.status(500).send('Cannot update toy')
   }
 })
 
@@ -113,10 +113,10 @@ app.delete('/api/toy/:toyId', async (req, res) => {
 
   try {
     await toyService.remove(toyId)
-    res.send()
+    res.status(200).send()
   } catch (err) {
     loggerService.error('Cannot delete toy', err)
-    res.status(400).send('Cannot delete toy')
+    res.status(500).send('Cannot delete toy')
   }
 })
 

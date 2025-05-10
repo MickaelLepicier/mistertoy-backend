@@ -10,8 +10,8 @@ import { fileURLToPath } from 'url'
 // TODOs:
 // [v] Add data to MongoDB
 // [v] Play with MongoDB shell commands
-// [] Change server to MongoDB
-// 
+// [v] Change server to MongoDB
+// [] Add auth and user
 // 
 
 const __filename = fileURLToPath(import.meta.url)
@@ -49,6 +49,8 @@ import { toyRoutes } from './api/toy/toyRoutes.js'
 
 app.use('/api/toy', toyRoutes)
 
+
+/*
 
 // **************** Toys API ****************:
 app.get('/api/toy', async (req, res) => {
@@ -142,6 +144,8 @@ app.delete('/api/toy/:toyId', async (req, res) => {
     res.status(500).send('Cannot delete toy')
   }
 })
+
+*/
 
 //* In production with Render
 // app.get('/api/apikey', (req, res) => {

@@ -14,7 +14,7 @@ const labels = [
   'Battery Powered'
 ]
 
-export const toyService = {
+export const _toyService = {
   query,
   get,
   remove,
@@ -24,7 +24,7 @@ export const toyService = {
 }
 
 function query(filterBy = {}, sortBy = {}, pageIdx) {
-  let filteredToys = toys
+  let filteredToys = [...toys]
 
   if (filterBy.txt) {
     const regExp = new RegExp(filterBy.txt, 'i')

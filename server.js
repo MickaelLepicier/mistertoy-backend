@@ -1,17 +1,34 @@
 import cookieParser from 'cookie-parser'
 import express from 'express'
 import cors from 'cors'
-import path from 'path'
+import path, { dirname } from 'path'
 import { toyService } from './services/toyService.js'
 import { loggerService } from './services/loggerService.js'
+import { fileURLToPath } from 'url'
+
+
+// TODOs:
+// [v] Add data to MongoDB
+// [v] Play with MongoDB shell commands
+// [] Change server to MongoDB
+// 
+// 
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+loggerService.info('server.js loaded...')
 
 const app = express()
 
 app.use(cookieParser())
 app.use(express.json())
+app.use(express.static('public'))
+
+
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('public'))
+app.use(express.static(path.resolve(__dirname,'public')))
 } else {
   const corsOptions = {
     origin: [
@@ -26,6 +43,12 @@ if (process.env.NODE_ENV === 'production') {
   }
   app.use(cors(corsOptions))
 }
+
+import { toyRoutes } from './api/toy/toyRoutes.js'
+
+
+app.use('/api/toy', toyRoutes)
+
 
 // **************** Toys API ****************:
 app.get('/api/toy', async (req, res) => {
@@ -126,9 +149,9 @@ app.delete('/api/toy/:toyId', async (req, res) => {
 // })
 
 // Fallback
-// app.get('/**', (req, res) => {
-//   res.sendFile(path.resolve('public/index.html'))
-// })
+app.get('/*all', (req, res) => {
+  res.sendFile(path.resolve('public/index.html'))
+})
 
 const port = process.env.PORT || 3030
 app.listen(port, () => {

@@ -28,8 +28,13 @@ async function getCollection(collectionName) {
 }
 // QUESTION:
 // do I really need config.dbURL?
-// how are my Commits?
+// change to config.dbURL
+
 // do I need toyRoutes.get('/labels', getLabels) in the toyRoutes?
+// don't need this - toyRoutes.get('/labels/count', getLabelsCount)
+
+// how are my Commits?
+// don't touch what inside the gitHub later on look that all of them start with big letter
 
 async function _connect() {
 	if (dbConn) return dbConn

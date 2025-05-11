@@ -30,6 +30,10 @@ export const toyService = {
   removeToyMsg
 }
 
+// TODO - create 2 functions
+// _buildCriteria
+// _buildSort
+
 async function query(filterBy = {}, sortBy = {}, pageIdx) {
   try {
     const criteria = {}
@@ -46,16 +50,16 @@ async function query(filterBy = {}, sortBy = {}, pageIdx) {
       criteria.labels = { $all: filterBy.labels }
     }
 
-    const sortPotions = {}
+    const sortOptions = {}
     if (sortBy.type) {
       const direction = +sortBy.desc
-      sortPotions[sortBy.type] = direction
+      sortOptions[sortBy.type] = direction
     }
 
     const collection = await dbService.getCollection(dbName)
     const toys = await collection
       .find(criteria)
-      .sort(sortPotions)
+      .sort(sortOptions)
       .skip(pageIdx !== undefined ? pageIdx * PAGE_SIZE : 0)
       .limit(PAGE_SIZE)
       .toArray()

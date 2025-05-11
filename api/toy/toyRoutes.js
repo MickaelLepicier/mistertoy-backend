@@ -13,9 +13,9 @@ toyRoutes.get('/labels/count', getLabelsCount)
 
 // **************** Toys ****************:
 toyRoutes.get('/:id', getToysById)
-toyRoutes.post('/', addToy)
-toyRoutes.put('/:id', updateToy)
-toyRoutes.delete('/:id', removeToy)
+toyRoutes.post('/',requireAuth, addToy)
+toyRoutes.put('/:id',requireAuth, updateToy)
+toyRoutes.delete('/:id',requireAuth, removeToy)
 
 // **************** Msgs ****************:
 toyRoutes.post('/:id/msg', requireAuth, addToyMsg)

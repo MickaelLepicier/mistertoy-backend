@@ -45,9 +45,12 @@ app.use(express.static(path.resolve(__dirname,'public')))
 }
 
 import { toyRoutes } from './api/toy/toyRoutes.js'
+import { authRoutes } from './api/auth/authRoutes.js'
 
-
+app.use('/api/auth', authRoutes)
 app.use('/api/toy', toyRoutes)
+
+
 
 
 /*

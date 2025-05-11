@@ -2,7 +2,6 @@ import cookieParser from 'cookie-parser'
 import express from 'express'
 import cors from 'cors'
 import path, { dirname } from 'path'
-import { toyService } from './services/toyService.js'
 import { loggerService } from './services/loggerService.js'
 import { fileURLToPath } from 'url'
 
@@ -13,6 +12,13 @@ import { fileURLToPath } from 'url'
 // [v] Change server to MongoDB
 // [] Add auth and user
 // 
+// 
+// 
+
+
+
+
+
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -45,7 +51,7 @@ app.use(express.static(path.resolve(__dirname,'public')))
 }
 
 import { authRoutes } from './api/auth/authRoutes.js'
-import { userRoutes } from './api/user/user.routes.js'
+import { userRoutes } from './api/user/userRoutes.js'
 import { toyRoutes } from './api/toy/toyRoutes.js'
 
 app.use('/api/auth', authRoutes)

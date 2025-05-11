@@ -1,6 +1,7 @@
 import { MongoClient } from 'mongodb'
 
 import { config } from '../config/index.js'
+import { userService } from '../api/user/userService.js'
 
 export const dbService = {
 	getCollection,

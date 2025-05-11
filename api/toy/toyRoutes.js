@@ -1,15 +1,15 @@
 import express from 'express'
-import { log } from '../../middlewares/loggerMiddleware'
-import { addToy, addToyMsg, getLabels, getLabelsCount, getToys, getToysById, removeToy, removeToyMsg, updateToy } from './toyController'
-import { requireAdmin, requireAuth } from '../../middlewares/requireAuthMiddleware'
+import { log } from '../../middlewares/loggerMiddleware.js'
+import { addToy, addToyMsg, getLabels, getLabelsCount, getToys, getToysById, removeToy, removeToyMsg, updateToy } from './toyController.js'
+import { requireAdmin, requireAuth } from '../../middlewares/requireAuthMiddleware.js'
 
 export const toyRoutes = express.Router()
 
 toyRoutes.get('/', log, getToys)
 
 // **************** Lables ****************:
-router.get('/labels', getLabels)
-router.get('/labels/count', getLabelsCount)
+toyRoutes.get('/labels', getLabels)
+toyRoutes.get('/labels/count', getLabelsCount)
 
 // **************** Toys ****************:
 toyRoutes.get('/:id', getToysById)

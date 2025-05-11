@@ -7,15 +7,15 @@ export const toyRoutes = express.Router()
 
 toyRoutes.get('/', log, getToys)
 
-// **************** Lables ****************:
+// **************** Labels ****************:
 toyRoutes.get('/labels', getLabels)
 toyRoutes.get('/labels/count', getLabelsCount)
 
 // **************** Toys ****************:
 toyRoutes.get('/:id', getToysById)
-toyRoutes.post('/', requireAuth, addToy)
-toyRoutes.put('/:id', requireAuth, updateToy)
-toyRoutes.delete('/:id', requireAuth, removeToy)
+toyRoutes.post('/', addToy)
+toyRoutes.put('/:id', updateToy)
+toyRoutes.delete('/:id', removeToy)
 
 // **************** Msgs ****************:
 toyRoutes.post('/:id/msg', requireAuth, addToyMsg)

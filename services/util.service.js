@@ -9,3 +9,11 @@ function readJsonFile(path) {
   const json = JSON.parse(str)
   return json
 }
+
+export function isValidObjectId(id){
+  if(typeof id !== 'string') return false
+  if(id.length !== 24) return false
+
+  const hexRegex = /^[0-9a-fA-F]$/
+  return hexRegex.test(id)
+}

@@ -1,13 +1,18 @@
+
+
+# ### 🧸 GET all the toys (existing)
+GET http://localhost:3030/api/toy
+
 # ### 🧸 GET single toy by ID (existing)
-# GET http://localhost:3030/api/toy/t101
-GET http://localhost:3030/api/toy/6819e69bab89aeccdf400108
+# GET http://localhost:3030/api/toy/68209dc13a12260960dac156
+GET http://localhost:3030/api/toy/68209dc13a12260960dac156
 
 
 ### 🧸 GET single toy by ID (non-existing)
 GET http://localhost:3030/api/toy/bogus123
 
 ### 🧹 DELETE toy by ID (existing)
-DELETE http://localhost:3030/api/toy/6819e69bab89aeccdf400107
+DELETE http://localhost:3030/api/toy/68209dc13a12260960dac158
 
 ### 🧹 DELETE toy by ID (non-existing)
 DELETE http://localhost:3030/api/toy/doesnotexist
@@ -34,11 +39,11 @@ Content-Type: application/json
 }
 
 ### ✏️ PUT update toy (valid update)
-PUT http://localhost:3030/api/toy
+PUT http://localhost:3030/api/toy/68209dc13a12260960dac156
 Content-Type: application/json
 
 {
-    "_id": "6819e69bab89aeccdf400107",
+    "_id": "68209dc13a12260960dac156",
     "name": "Thunder Bot XL",
     "price": 139,
     "inStock": true,
@@ -72,22 +77,22 @@ GET http://localhost:3030/api/toy?labels=Art
 GET http://localhost:3030/api/toy?labels=Art,Puzzle
 
 ### 🔃 Sort by price ascending
-GET http://localhost:3030/api/toy?sortField=price&sortDir=1
+GET http://localhost:3030/api/toy?sortType=price&sortDesc=1
 
 ### 🔃 Sort by price descending
-GET http://localhost:3030/api/toy?sortField=price&sortDir=-1
+GET http://localhost:3030/api/toy?sortType=price&sortDesc=-1
 
 ### 🔃 Sort by createdAt descending
-GET http://localhost:3030/api/toy?sortField=createdAt&sortDir=-1
+GET http://localhost:3030/api/toy?sortType=createdAt&sortDesc=-1
 
 ### 🔃 Sort by name descending
-GET http://localhost:3030/api/toy?sortField=name&sortDir=-1
+GET http://localhost:3030/api/toy?sortType=name&sortDesc=-1
 
-### 📄 Pagination: page 0 (first page), 5 toys
-GET http://localhost:3030/api/toy?pageIdx=0&pageSize=5
+### 📄 Pagination: page 0 (first page), 6 toys
+GET http://localhost:3030/api/toy?pageIdx=0
 
-### 📄 Pagination: page 1 (second page), 5 toys
-GET http://localhost:3030/api/toy?pageIdx=1&pageSize=5
+### 📄 Pagination: page 1 (second page), 6 toys
+GET http://localhost:3030/api/toy?pageIdx=1
 
-### 🔁 Combo: txt=stack, label=Puzzle, sort=price asc, page=0
-GET http://localhost:3030/api/toy?txt=stack&labels=Puzzle&sortField=price&sortDir=1&pageIdx=0&pageSize=3
+### 🔁 Combo: txt=Wooden, label=Puzzle, sort=price asc, page=0
+GET http://localhost:3030/api/toy?txt=Wooden&labels=Puzzle&sortType=price&sortDesc=1&pageIdx=0

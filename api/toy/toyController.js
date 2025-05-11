@@ -30,29 +30,33 @@ export async function getToysById(req, res) {
     const toy = await toyService.get(toyId)
     res.status(200).send(toy)
   } catch (err) {
-    logger.error('Failed to get toy', err)
+    loggerService.error('Failed to get toy', err)
     res.status(500).send({ err: 'Failed to get toy' })
   }
 }
 
 export async function addToy(req, res) {
+  console.log('addToy')
+
   try {
     const toy = req.body
     const savedToy = await toyService.save(toy)
     res.status(200).send(savedToy)
   } catch (err) {
-    logger.error('Failed to add toy', err)
+    loggerService.error('Failed to add toy', err)
     res.status(500).send({ err: 'Failed to add toy' })
   }
 }
 
 export async function updateToy(req, res) {
+  console.log('updateToy')
   try {
     const toy = { ...req.body, _id: req.params.id }
+    console.log('updateToy - toy: ',toy)
     const updateToy = await toyService.save(toy)
     res.status(200).send(updateToy)
   } catch (err) {
-    logger.error('Failed to update toy', err)
+    loggerService.error('Failed to update toy', err)
     res.status(500).send({ err: 'Failed to update toy' })
   }
 }
@@ -63,7 +67,7 @@ export async function removeToy(req, res) {
     const deletedCount = await toyService.remove(toyId)
     res.status(200).send(`${deletedCount} toys removed`)
   } catch (err) {
-    logger.error('Failed to remove toy', err)
+    loggerService.error('Failed to remove toy', err)
     res.status(500).send({ err: 'Failed to remove toy' })
   }
 }
@@ -75,7 +79,7 @@ export async function getLabels(req, res) {
     const labels = await toyService.getLabels()
     res.status(200).send(labels)
   } catch (err) {
-    logger.error('Cannot get labels', err)
+    loggerService.error('Cannot get labels', err)
     res.status(500).send({ err: 'Cannot get labels' })
   }
 }
@@ -85,7 +89,7 @@ export async function getLabelsCount(req, res) {
     const labelsCount = await toyService.getLabelsCount()
     res.status(200).send(labelsCount)
   } catch (err) {
-    logger.error('Cannot get labels count', err)
+    loggerService.error('Cannot get labels count', err)
     res.status(500).send({ err: 'Cannot get labels count' })
   }
 }
@@ -104,7 +108,7 @@ export async function addToyMsg(req, res) {
     const savedMsg = await toyService.addToyMsg(toyId, msg)
     res.json(savedMsg)
   } catch (err) {
-    logger.error('Failed to update toy', err)
+    loggerService.error('Failed to update toy', err)
     res.status(500).send({ err: 'Failed to update toy' })
   }
 }
@@ -118,7 +122,7 @@ export async function removeToyMsg(req, res) {
     const removedId = await toyService.removeToyMsg(toyId, msgId)
     res.status(200).send(removedId)
   } catch (err) {
-    logger.error('Failed to remove toy msg', err)
+    loggerService.error('Failed to remove toy msg', err)
     res.status(500).send({ err: 'Failed to remove toy msg' })
   }
 }

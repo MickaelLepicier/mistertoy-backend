@@ -44,10 +44,12 @@ app.use(express.static(path.resolve(__dirname,'public')))
   app.use(cors(corsOptions))
 }
 
-import { toyRoutes } from './api/toy/toyRoutes.js'
 import { authRoutes } from './api/auth/authRoutes.js'
+import { userRoutes } from './api/user/user.routes.js'
+import { toyRoutes } from './api/toy/toyRoutes.js'
 
 app.use('/api/auth', authRoutes)
+app.use('/api/user', userRoutes)
 app.use('/api/toy', toyRoutes)
 
 

@@ -1,4 +1,7 @@
 export default {
-    dbURL: 'mongodb+srv://theUser:thePass@cluster0-klgzh.mongodb.net/test?retryWrites=true&w=majority',
+    dbURL: 'mongodb+srv://mickael233:<password>@cluster0.0zothoj.mongodb.net/',
     dbName: 'mistertoy_db',
 }
+
+// bil0LLtnjx2P6b2a
+// mickael233

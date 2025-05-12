@@ -30,31 +30,11 @@ export const toyService = {
   removeToyMsg
 }
 
-// TODO - create 2 functions
-// _buildCriteria
-// _buildSort
 
 async function query(filterBy = {}, sortBy = {}, pageIdx) {
   try {
-    const criteria = {}
-
-    if (filterBy.txt) {
-      criteria.name = { $regex: filterBy.txt, $options: 'i' }
-    }
-
-    if (filterBy.inStock !== undefined) {
-      criteria.inStock = JSON.parse(filterBy.inStock)
-    }
-
-    if (filterBy.labels && filterBy.labels.length) {
-      criteria.labels = { $all: filterBy.labels }
-    }
-
-    const sortOptions = {}
-    if (sortBy.type) {
-      const direction = +sortBy.desc
-      sortOptions[sortBy.type] = direction
-    }
+    const criteria = _buildCriteria(filterBy)
+    const sortOptions = _buildSort(sortBy)
 
     const collection = await dbService.getCollection(dbName)
     const toys = await collection
@@ -169,6 +149,33 @@ async function removeToyMsg(toyId, msgId) {
     { $pull: { msgs: { _id: msgId } } }
   )
   return msgId
+}
+
+
+function _buildCriteria(filterBy){
+  const criteria = {}
+
+    if (filterBy.txt) {
+      criteria.name = { $regex: filterBy.txt, $options: 'i' }
+    }
+
+    if (filterBy.inStock !== undefined) {
+      criteria.inStock = JSON.parse(filterBy.inStock)
+    }
+
+    if (filterBy.labels && filterBy.labels.length) {
+      criteria.labels = { $all: filterBy.labels }
+    }
+    return criteria
+}
+
+function _buildSort(sortBy){
+  const sortOptions = {}
+    if (sortBy.type) {
+      const direction = +sortBy.desc
+      sortOptions[sortBy.type] = direction
+    }
+    return sortOptions
 }
 
 /*

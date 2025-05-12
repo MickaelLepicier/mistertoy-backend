@@ -40,11 +40,11 @@ async function _connect() {
 	if (dbConn) return dbConn
 	try {
 		// const client = await MongoClient.connect(config.dbURL, { useUnifiedTopology: true })
-		// const client = await MongoClient.connect(config.dbURL)
-		// const db = client.db(config.dbName)
+		const client = await MongoClient.connect(config.dbURL)
+		const db = client.db(config.dbName)
 
-		const client = await MongoClient.connect(url)
-		const db = client.db(dbName)
+		// const client = await MongoClient.connect(url)
+		// const db = client.db(dbName)
 		dbConn = db
 		return db
 	} catch (err) {

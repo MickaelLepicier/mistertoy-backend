@@ -10,8 +10,8 @@ import { fileURLToPath } from 'url'
 // [v] Add data to MongoDB
 // [v] Play with MongoDB shell commands
 // [v] Change server to MongoDB
-// [] Add auth and user
-// 
+// [v] Add auth and user
+// [] Organize the user data
 // 
 // 
 

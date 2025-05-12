@@ -1,0 +1,72 @@
+[
+  {
+    "username": "SHem Tov",
+    "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
+    "fullname": "Lala",
+    "imgUrl": "https://res.cloudinary.com/vanilla-test-images/image/upload/v1730798074/knxcgzpwtkak62z1nxvn.jpg",
+    "isAdmin": false
+  },
+  {
+    "username": "NoaZ",
+    "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
+    "fullname": "Noa Zehavi",
+    "imgUrl": "https://res.cloudinary.com/vanilla-test-images/image/upload/v1730798210/sample_1.jpg",
+    "isAdmin": false
+  },
+  {
+    "username": "AviCohen",
+    "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
+    "fullname": "Avi Cohen",
+    "imgUrl": "https://res.cloudinary.com/vanilla-test-images/image/upload/v1730798311/sample_2.jpg",
+    "isAdmin": false
+  },
+  {
+    "username": "DanaM",
+    "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
+    "fullname": "Dana Mizrahi",
+    "imgUrl": "https://res.cloudinary.com/vanilla-test-images/image/upload/v1730798365/sample_3.jpg",
+    "isAdmin": false
+  },
+  {
+    "username": "ItayB",
+    "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
+    "fullname": "Itay Ben David",
+    "imgUrl": "https://res.cloudinary.com/vanilla-test-images/image/upload/v1730798411/sample_4.jpg",
+    "isAdmin": false
+  },
+  {
+    "username": "RinaK",
+    "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
+    "fullname": "Rina Kaplan",
+    "imgUrl": "https://res.cloudinary.com/vanilla-test-images/image/upload/v1730798456/sample_5.jpg",
+    "isAdmin": false
+  },
+  {
+    "username": "TalS",
+    "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
+    "fullname": "Tal Shaked",
+    "imgUrl": "https://res.cloudinary.com/vanilla-test-images/image/upload/v1730798503/sample_6.jpg",
+    "isAdmin": false
+  },
+  {
+    "username": "NadavF",
+    "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
+    "fullname": "Nadav Feldman",
+    "imgUrl": "https://res.cloudinary.com/vanilla-test-images/image/upload/v1730798552/sample_7.jpg",
+    "isAdmin": false
+  },
+  {
+    "username": "MichalT",
+    "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
+    "fullname": "Michal Tal",
+    "imgUrl": "https://res.cloudinary.com/vanilla-test-images/image/upload/v1730798601/sample_8.jpg",
+    "isAdmin": false
+  },
+  {
+    "username": "AdminGuy",
+    "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
+    "fullname": "Admin User",
+    "imgUrl": "https://res.cloudinary.com/vanilla-test-images/image/upload/v1730798645/sample_9.jpg",
+    "isAdmin": true
+  }
+]

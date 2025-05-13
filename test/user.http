@@ -1,0 +1,52 @@
+### 👤 GET all users
+GET http://localhost:3030/api/user
+
+### 👤 GET single user by ID (existing)
+GET http://localhost:3030/api/user/6821ed013a12260960dac16b
+
+### 👤 GET single user by ID (non-existing)
+GET http://localhost:3030/api/user/nonexistentid
+
+### 🗑️ DELETE user by ID (existing)
+DELETE http://localhost:3030/api/user/6821ed013a12260960dac16c
+
+### 🗑️ DELETE user by ID (non-existing)
+DELETE http://localhost:3030/api/user/doesnotexist
+
+### ➕ POST new user (valid)
+POST http://localhost:3030/api/user
+Content-Type: application/json
+
+{
+"fullname": "New Tester",
+"username": "testuser",
+"password": "securepass123"
+}
+
+### ➕ POST new user (missing required fields)
+POST http://localhost:3030/api/user
+Content-Type: application/json
+
+{
+"fullname": "Missing Username"
+}
+
+### ✏️ PUT update user (valid)
+PUT http://localhost:3030/api/user/6821ed013a12260960dac16a
+Content-Type: application/json
+
+{
+"_id": "6821ed013a12260960dac16a",
+"fullname": "Updated Name",
+"username": "updateduser",
+"score": 200
+}
+
+### ✏️ PUT update user (invalid: missing _id)
+PUT http://localhost:3030/api/user
+Content-Type: application/json
+
+{
+"fullname": "No ID Update",
+"username": "failupdate"
+}

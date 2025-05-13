@@ -1,8 +1,7 @@
-import fs from 'fs'
-import { utilService } from '../../services/util.service.js'
-import { dbService } from '../../services/dbService.js'
-import { loggerService } from '../../services/loggerService.js'
 import { ObjectId } from 'mongodb'
+import { dbService } from '../../services/db.service.js'
+import { loggerService } from '../../services/loggerService.js'
+import { utilService } from '../../services/util.service.js'
 
 const PAGE_SIZE = 6
 const dbName = 'toy_db'
@@ -21,15 +20,15 @@ const labels = [
 
 export const toyService = {
   query,
-  get,
+  getById,
   remove,
-  save,
+  add,
+  update,
   getLabels,
   getLabelsCount,
-  addToyMsg,
-  removeToyMsg
+  addMsg,
+  removeMsg
 }
-
 
 async function query(filterBy = {}, sortBy = {}, pageIdx) {
   try {
@@ -37,22 +36,29 @@ async function query(filterBy = {}, sortBy = {}, pageIdx) {
     const sortOptions = _buildSort(sortBy)
 
     const collection = await dbService.getCollection(dbName)
-    const toys = await collection
+    const skip = pageIdx !== undefined ? pageIdx * PAGE_SIZE : 0
+
+    const filteredToys = await collection
       .find(criteria)
+      .collation({ locale: 'en' })
       .sort(sortOptions)
-      .skip(pageIdx !== undefined ? pageIdx * PAGE_SIZE : 0)
+      .skip(skip)
       .limit(PAGE_SIZE)
       .toArray()
 
-    return toys
+    const totalCount = filteredToys.length
+    const maxPage = Math.ceil(totalCount / PAGE_SIZE)
+
+    return { toys: filteredToys, maxPage }
   } catch (err) {
     loggerService.error('Failed to query toys', err)
     throw err
   }
 }
 
-async function get(toyId) {
+async function getById(toyId) {
   try {
+    // TODO - use zod library for that
     if (!ObjectId.isValid(toyId)) {
       loggerService.error('Invalid ObjectId format')
       throw new Error('Invalid ObjectId format')
@@ -87,25 +93,36 @@ async function remove(toyId) {
   }
 }
 
-async function save(toy) {
-  const collection = await dbService.getCollection(dbName)
-  console.log('toy: ',toy)
-  if (toy._id) {
-    // Update
-    const toyId = toy._id
-    delete toy._id
-    await collection.updateOne(
-      { _id: ObjectId.createFromHexString(toyId) },
-      { $set: toy }
-    )
-    toy._id = toyId
-  } else {
-    // Create
-    toy.createdAt = Date.now()
+async function add(toy) {
+  try {
     toy.inStock = true
+    const collection = await dbService.getCollection(dbName)
     await collection.insertOne(toy)
+    return toy
+  } catch (err) {
+    loggerService.error('cannot insert toy', err)
+    throw err
   }
-  return toy
+}
+
+async function update(toy) {
+  try {
+    const { name, price, labels } = toy
+    const toyToUpdate = {
+      name,
+      price,
+      labels
+    }
+    const collection = await dbService.getCollection(dbName)
+    await collection.updateOne(
+      { _id: ObjectId.createFromHexString(toy._id) },
+      { $set: toyToUpdate }
+    )
+    return toy
+  } catch (err) {
+    loggerService.error(`cannot update toy ${toy._id}`, err)
+    throw err
+  }
 }
 
 function getLabels() {
@@ -133,73 +150,58 @@ async function getLabelsCount() {
   }
 }
 
-async function addToyMsg(toyId, msg) {
-  const collection = await dbService.getCollection(dbName)
-  await collection.updateOne(
-    { _id: new ObjectId(toyId) },
-    { $push: { msgs: msg } }
-  )
-  return msg
+async function addMsg(toyId, msg) {
+  try {
+    msg.id = utilService.makeId()
+
+    const collection = await dbService.getCollection('toy')
+    await collection.updateOne(
+      { _id: ObjectId.createFromHexString(toyId) },
+      { $push: { msgs: msg } }
+    )
+    return msg
+  } catch (err) {
+    loggerService.error(`cannot add message to toy ${toyId}`, err)
+    throw err
+  }
 }
 
-async function removeToyMsg(toyId, msgId) {
-  const collection = await dbService.getCollection(dbName)
-  await collection.updateOne(
-    { _id: new ObjectId(toyId) },
-    { $pull: { msgs: { _id: msgId } } }
-  )
-  return msgId
+async function removeMsg(toyId, msgId) {
+  try {
+    const collection = await dbService.getCollection('toy')
+    await collection.updateOne(
+      { _id: ObjectId.createFromHexString(toyId) },
+      { $pull: { msgs: { id: msgId } } }
+    )
+    return msgId
+  } catch (error) {
+    loggerService.error(`cannot remove message from toy ${toyId}`, error)
+    throw error
+  }
 }
 
-
-function _buildCriteria(filterBy){
+function _buildCriteria(filterBy) {
   const criteria = {}
 
-    if (filterBy.txt) {
-      criteria.name = { $regex: filterBy.txt, $options: 'i' }
-    }
-
-    if (filterBy.inStock !== undefined) {
-      criteria.inStock = JSON.parse(filterBy.inStock)
-    }
-
-    if (filterBy.labels && filterBy.labels.length) {
-      criteria.labels = { $all: filterBy.labels }
-    }
-    return criteria
-}
-
-function _buildSort(sortBy){
-  const sortOptions = {}
-    if (sortBy.type) {
-      const direction = +sortBy.desc
-      sortOptions[sortBy.type] = direction
-    }
-    return sortOptions
-}
-
-/*
-
-function _makeId(length = 5) {
-  let text = ''
-  const possible =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length))
+  if (filterBy.txt) {
+    criteria.name = { $regex: filterBy.txt, $options: 'i' }
   }
-  return text
+
+  if (filterBy.inStock !== undefined) {
+    criteria.inStock = JSON.parse(filterBy.inStock)
+  }
+
+  if (filterBy.labels && filterBy.labels.length) {
+    criteria.labels = { $all: filterBy.labels }
+  }
+  return criteria
 }
 
-function _saveToysToFile() {
-  return new Promise((resolve, reject) => {
-    const toysStr = JSON.stringify(toys, null, 4)
-    fs.writeFile('data/toy.json', toysStr, (err) => {
-      if (err) {
-        return console.log(err)
-      }
-      resolve()
-    })
-  })
+function _buildSort(sortBy) {
+  const sortOptions = {}
+  if (sortBy.type) {
+    const direction = +sortBy.desc
+    sortOptions[sortBy.type] = direction
+  } else sortCriteria.createdAt = -1
+  return sortOptions
 }
-
-*/

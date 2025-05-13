@@ -4,21 +4,7 @@ import cors from 'cors'
 import path, { dirname } from 'path'
 import { loggerService } from './services/loggerService.js'
 import { fileURLToPath } from 'url'
-
-
-// TODOs:
-// [v] Add data to MongoDB
-// [v] Play with MongoDB shell commands
-// [v] Change server to MongoDB
-// [v] Add auth and user
-// [] Organize the user data
-// 
-// 
-
-
-
-
-
+import { log } from './middlewares/loggerMiddleware.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -26,15 +12,14 @@ const __dirname = dirname(__filename)
 loggerService.info('server.js loaded...')
 
 const app = express()
+// app.use(log)
 
 app.use(cookieParser())
 app.use(express.json())
-app.use(express.static('public'))
-
-
+app.set('query parser', 'extended')
 
 if (process.env.NODE_ENV === 'production') {
-app.use(express.static(path.resolve(__dirname,'public')))
+  app.use(express.static(path.resolve(__dirname, 'public')))
 } else {
   const corsOptions = {
     origin: [
@@ -58,12 +43,10 @@ app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/toy', toyRoutes)
 
-
-
 //* In production with Render
-// app.get('/api/apikey', (req, res) => {
-//    res.send(process.env.API_KEY)
-// })
+app.get('/api/apikey', (req, res) => {
+  res.send(process.env.API_KEY)
+})
 
 // Fallback
 app.get('/*all', (req, res) => {

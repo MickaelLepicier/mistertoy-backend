@@ -12,11 +12,13 @@ toyRoutes.get('/labels', getLabels)
 toyRoutes.get('/labels/count', getLabelsCount)
 
 // **************** Toys ****************:
-toyRoutes.get('/:id', getToysById)
+toyRoutes.get('/:toyId', getToysById)
 toyRoutes.post('/',requireAuth, addToy)
-toyRoutes.put('/:id',requireAuth, updateToy)
-toyRoutes.delete('/:id',requireAuth, removeToy)
+toyRoutes.put('/:toyId',requireAuth, updateToy)
+toyRoutes.delete('/:toyId',requireAuth, removeToy)
 
 // **************** Msgs ****************:
-toyRoutes.post('/:id/msg', requireAuth, addToyMsg)
-toyRoutes.delete('/:id/msg/:msgId', requireAdmin, requireAuth, removeToyMsg)
+toyRoutes.post('/:toyId/msg', requireAuth, addToyMsg)
+toyRoutes.delete('/:toyId/msg/:msgId', requireAdmin, requireAuth, removeToyMsg)
+
+

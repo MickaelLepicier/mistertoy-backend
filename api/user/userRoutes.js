@@ -13,4 +13,4 @@ userRoutes.get('/:id', getUser)
 userRoutes.put('/:id',  updateUser)
 
 userRoutes.put('/:id',  requireAuth, updateUser)
-userRoutes.delete('/:id',  requireAuth, deleteUser)
+userRoutes.delete('/:id',  requireAuth, requireAdmin, deleteUser)

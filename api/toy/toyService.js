@@ -49,7 +49,8 @@ async function query(filterBy = {}, sortBy = {}, pageIdx) {
     const totalCount = filteredToys.length
     const maxPage = Math.ceil(totalCount / PAGE_SIZE)
 
-    return { toys: filteredToys, maxPage }
+    // return { toys: filteredToys, maxPage }
+    return filteredToys
   } catch (err) {
     loggerService.error('Failed to query toys', err)
     throw err
@@ -202,6 +203,6 @@ function _buildSort(sortBy) {
   if (sortBy.type) {
     const direction = +sortBy.desc
     sortOptions[sortBy.type] = direction
-  } else sortCriteria.createdAt = -1
+  } else sortOptions.createdAt = -1
   return sortOptions
 }

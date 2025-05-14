@@ -1,16 +1,20 @@
 import express from 'express'
 
 import { requireAuth, requireAdmin } from '../../middlewares/requireAuthMiddleware.js'
-import { getUser, getUsers, deleteUser, updateUser } from './userController.js'
+import { getUser, getUsers, deleteUser, updateUser, addUser } from './userController.js'
 
 export const userRoutes = express.Router()
 
 // middleware that is specific to this router
 // userRoutes.use(requireAuth)
 
+// QUESTION - BUGS:
+// the updateUser don't work, the user is undefide
+
+userRoutes.post('/', addUser)
 userRoutes.get('/', getUsers)
 userRoutes.get('/:id', getUser)
 userRoutes.put('/:id',  updateUser)
 
-userRoutes.put('/:id',  requireAuth, updateUser)
+// userRoutes.put('/:id',  requireAuth, updateUser)
 userRoutes.delete('/:id',  requireAuth, requireAdmin, deleteUser)

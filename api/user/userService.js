@@ -26,7 +26,7 @@ async function query(filterBy = {}) {
     })
     return users
   } catch (err) {
-    loggerService.error('cannot find users', err)
+    loggerService.error('Cannot find users', err)
     throw err
   }
 }
@@ -40,7 +40,7 @@ async function getById(userId) {
     delete user.password
     return user
   } catch (err) {
-    loggerService.error(`while finding user ${userId}`, err)
+    loggerService.error(`While finding user ${userId}`, err)
     throw err
   }
 }
@@ -50,60 +50,63 @@ async function remove(userId) {
     const collection = await dbService.getCollection(dbName)
     await collection.deleteOne({ _id: ObjectId.createFromHexString(userId) })
   } catch (err) {
-    loggerService.error(`cannot remove user ${userId}`, err)
+    loggerService.error(`Cannot remove user ${userId}`, err)
     throw err
   }
 }
 
 async function add(user) {
   try {
+    const { username, password, fullname } = user
+    if (!username || !password || !fullname) {
+      throw new Error('User details are missing')
+    }
+
     const existUser = await getByUsername(user.username)
     if (existUser) throw new Error('Username taken')
 
     const userToAdd = {
-      username: user.username,
-      password: user.password,
-      fullname: user.fullname,
-	  isAdmin: false,
+      username,
+      password,
+      fullname,
+      isAdmin: false
       // score: user.score || 0,
     }
     const collection = await dbService.getCollection(dbName)
     await collection.insertOne(userToAdd)
     return userToAdd
   } catch (err) {
-    loggerService.error('cannot insert user', err)
+    loggerService.error('Cannot insert user', err)
     throw err
   }
 }
 
 async function getByUsername(username) {
-	try {
-	  const collection = await dbService.getCollection(dbName)
-	  const user = await collection.findOne({ username })
-	  return user
-	} catch (err) {
-	  loggerService.error(`while finding user ${username}`, err)
-	  throw err
-	}
+  try {
+    const collection = await dbService.getCollection(dbName)
+    const user = await collection.findOne({ username })
+    return user
+  } catch (err) {
+    loggerService.error(`While finding user ${username}`, err)
+    throw err
   }
+}
 
-  async function update(user) {
-	try {
-	  const userToSave = {
-		_id: ObjectId.createFromHexString(user._id),
-		username: user.username,
-		fullname: user.fullname
-		// score: user.score,
-	  }
-	  const collection = await dbService.getCollection(dbName)
-	  await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
-	  return userToSave
-	} catch (err) {
-	  loggerService.error(`cannot update user ${user._id}`, err)
-	  throw err
-	}
+async function update(user) {
+  console.log('user: ', user)
+  try {
+    const { _id, username, fullname } = user
+    const userId = ObjectId.createFromHexString(_id)
+    const userToSave = { username, fullname }
+
+    const collection = await dbService.getCollection(dbName)
+    await collection.updateOne({ _id: userId }, { $set: userToSave })
+    return { _id: userId, ...userToSave }
+  } catch (err) {
+    loggerService.error(`Cannot update user ${user._id}`, err)
+    throw err
   }
-
+}
 
 function _buildCriteria(filterBy) {
   const criteria = {}

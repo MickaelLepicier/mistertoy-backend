@@ -6,22 +6,17 @@ DELETE http://localhost:3030/api/toy/68209dc13a12260960dac158/msg/ msgId
 DELETE http://localhost:3030/api/toy/doesnotexist/msg/doesnotexist
 
 ### ➕ POST new msg (valid)
-POST http://localhost:3030/api/toy/msg
+POST http://localhost:3030/api/toy/6824627096244be8aaa431a9/msg
 Content-Type: application/json
 
 {
-    "name": "Ocean Explorer",
-    "price": 88,
-    "inStock": true,
-    "labels": ["Outdoor", "Box game"],
-    "imgUrl": "https://example.com/ocean-explorer.jpg"
+    "txt": "Great Product!"
 }
 
 ### ➕ POST new msg (missing name)
-POST http://localhost:3030/api/toy/msg
+POST http://localhost:3030/api/toy/6824627096244be8aaa431a9/msg
 Content-Type: application/json
 
 {
-    "price": 40,
-    "inStock": true
+    "price": 40
 }

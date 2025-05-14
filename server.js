@@ -14,8 +14,8 @@ loggerService.info('server.js loaded...')
 const app = express()
 // app.use(log)
 
-app.use(cookieParser())
 app.use(express.json())
+app.use(cookieParser())
 app.set('query parser', 'extended')
 
 if (process.env.NODE_ENV === 'production') {

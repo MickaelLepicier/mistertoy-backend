@@ -100,7 +100,7 @@ async function add(toy) {
     await collection.insertOne(toy)
     return toy
   } catch (err) {
-    loggerService.error('cannot insert toy', err)
+    loggerService.error('Cannot insert toy', err)
     throw err
   }
 }
@@ -120,7 +120,7 @@ async function update(toy) {
     )
     return toy
   } catch (err) {
-    loggerService.error(`cannot update toy ${toy._id}`, err)
+    loggerService.error(`Cannot update toy ${toy._id}`, err)
     throw err
   }
 }
@@ -161,7 +161,7 @@ async function addMsg(toyId, msg) {
     )
     return msg
   } catch (err) {
-    loggerService.error(`cannot add message to toy ${toyId}`, err)
+    loggerService.error(`Cannot add message to toy ${toyId}`, err)
     throw err
   }
 }
@@ -175,7 +175,7 @@ async function removeMsg(toyId, msgId) {
     )
     return msgId
   } catch (error) {
-    loggerService.error(`cannot remove message from toy ${toyId}`, error)
+    loggerService.error(`Cannot remove message from toy ${toyId}`, error)
     throw error
   }
 }

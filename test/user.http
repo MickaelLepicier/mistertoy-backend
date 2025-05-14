@@ -32,11 +32,12 @@ Content-Type: application/json
 }
 
 ### ✏️ PUT update user (valid)
-PUT http://localhost:3030/api/user/6821ed013a12260960dac16a
+PUT http://localhost:3030/api/user/6824669014113da2176c17ad
+
 Content-Type: application/json
 
 {
-"_id": "6821ed013a12260960dac16a",
+"_id": "6824669014113da2176c17ad",
 "fullname": "Updated Name",
 "username": "updateduser",
 "score": 200

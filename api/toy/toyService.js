@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { dbService } from '../../services/db.service.js'
 import { loggerService } from '../../services/loggerService.js'
-import { utilService } from '../../services/util.service.js'
+import { makeId, utilService } from '../../services/util.service.js'
 
 const PAGE_SIZE = 6
 const dbName = 'toy_db'
@@ -153,9 +153,9 @@ async function getLabelsCount() {
 
 async function addMsg(toyId, msg) {
   try {
-    msg.id = utilService.makeId()
+    msg.id = makeId()
 
-    const collection = await dbService.getCollection('toy')
+    const collection = await dbService.getCollection(dbName)
     await collection.updateOne(
       { _id: ObjectId.createFromHexString(toyId) },
       { $push: { msgs: msg } }
@@ -169,7 +169,7 @@ async function addMsg(toyId, msg) {
 
 async function removeMsg(toyId, msgId) {
   try {
-    const collection = await dbService.getCollection('toy')
+    const collection = await dbService.getCollection(dbName)
     await collection.updateOne(
       { _id: ObjectId.createFromHexString(toyId) },
       { $pull: { msgs: { id: msgId } } }

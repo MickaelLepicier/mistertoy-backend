@@ -4,21 +4,22 @@ import { loggerService } from '../../services/loggerService.js'
 // **************** Toys ****************:
 export async function getToys(req, res) {
   try {
-    const { txt, inStock, labels, sortType, sortDesc } = req.query
+    const { filterBy, sortBy, pageIdx } = req.query
+    const { txt, inStock, labels } = filterBy
+    const { sortType, sortDesc } = sortBy
 
-    const filterBy = {
+    const _filterBy = {
       txt: txt || '',
       inStock: inStock || undefined,
       labels: labels ? labels.split(',') : []
     }
-
-    const sortBy = {
+    const _sortBy = {
       type: sortType || '',
       desc: sortDesc || 1
     }
-    const pageIdx = req.query.pageIdx ? +req.query.pageIdx : 0
+    const _pageIdx = pageIdx ? +req.query.pageIdx : 0
 
-    const toys = await toyService.query(filterBy, sortBy, pageIdx)
+    const toys = await toyService.query(_filterBy, _sortBy, _pageIdx)
     res.status(200).send(toys)
   } catch (err) {
     loggerService.error('Failed to get toys', err)

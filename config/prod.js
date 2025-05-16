@@ -1,6 +1,6 @@
 export default {
-    // dbURL: 'mongodb+srv://mickael233:<password>@cluster0.0zothoj.mongodb.net/',
-    dbURL: process.env.MONGODB_URL,
+    dbURL: 'mongodb+srv://team:team@cluster0.0zothoj.mongodb.net/',
+    // dbURL: process.env.MONGODB_URL,
     dbName: 'mistertoy_db',
 }
 

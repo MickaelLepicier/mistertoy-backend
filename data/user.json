@@ -3,60 +3,70 @@
     "username": "SHem Tov",
     "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
     "fullname": "Lala",
+    "imgUrl": null,
     "isAdmin": false
   },
   {
     "username": "NoaZ",
     "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
     "fullname": "Noa Zehavi",
+    "imgUrl": null,
     "isAdmin": false
   },
   {
     "username": "AviCohen",
     "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
     "fullname": "Avi Cohen",
+    "imgUrl": null,
     "isAdmin": false
   },
   {
     "username": "DanaM",
     "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
     "fullname": "Dana Mizrahi",
+    "imgUrl": null,
     "isAdmin": false
   },
   {
     "username": "ItayB",
     "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
     "fullname": "Itay Ben David",
+    "imgUrl": null,
     "isAdmin": false
   },
   {
     "username": "RinaK",
     "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
     "fullname": "Rina Kaplan",
+    "imgUrl": null,
     "isAdmin": false
   },
   {
     "username": "TalS",
     "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
     "fullname": "Tal Shaked",
+    "imgUrl": null,
     "isAdmin": false
   },
   {
     "username": "NadavF",
     "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
     "fullname": "Nadav Feldman",
+    "imgUrl": null,
     "isAdmin": false
   },
   {
     "username": "MichalT",
     "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
     "fullname": "Michal Tal",
+    "imgUrl": null,
     "isAdmin": false
   },
   {
     "username": "AdminGuy",
-    "password": "$2b$10$.Dp6eN5cA2FC3ytYpOdgK.dLDxLxjhk6ZWEJzboY.EDOx9ejBdW8e",
+    "password": "AdminGuy",
     "fullname": "Admin User",
+    "imgUrl": null,
     "isAdmin": true
   }
 ]

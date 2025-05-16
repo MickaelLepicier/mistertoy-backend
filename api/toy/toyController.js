@@ -5,17 +5,15 @@ import { loggerService } from '../../services/loggerService.js'
 export async function getToys(req, res) {
   try {
     const { filterBy, sortBy, pageIdx } = req.query
-    const { txt, inStock, labels } = filterBy
-    const { sortType, sortDesc } = sortBy
 
     const _filterBy = {
-      txt: txt || '',
-      inStock: inStock || undefined,
-      labels: labels ? labels.split(',') : []
+      txt: filterBy?.txt || '',
+      inStock: filterBy?.inStock || undefined,
+      labels: filterBy?.labels ? filterBy.labels.split(',') : []
     }
     const _sortBy = {
-      type: sortType || '',
-      desc: sortDesc || 1
+      type: sortBy?.sortType || '',
+      desc: sortBy?.sortDesc || 1
     }
     const _pageIdx = pageIdx ? +req.query.pageIdx : 0
 

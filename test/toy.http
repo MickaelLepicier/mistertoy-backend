@@ -5,7 +5,7 @@ GET http://localhost:3030/api/toy
 
 ### 🧸 GET single toy by ID (existing)
 # GET http://localhost:3030/api/toy/68209dc13a12260960dac156
-GET http://localhost:3030/api/toy/68209dc13a12260960dac156
+GET http://localhost:3030/api/toy/6825c0183a12260960dac17b
 
 
 ### 🧸 GET single toy by ID (non-existing)

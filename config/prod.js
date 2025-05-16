@@ -1,8 +1,7 @@
-export default {
-    dbURL: 'mongodb+srv://team:team@cluster0.0zothoj.mongodb.net/',
-    // dbURL: process.env.MONGODB_URL,
-    dbName: 'mistertoy_db',
-}
+import dotenv from 'dotenv'
+dotenv.config()
 
-// bil0LLtnjx2P6b2a
-// mickael233
+export default {
+  dbURL: process.env.ATLAS_URL,
+  dbName: process.env.ATLAS_DBNAME
+}

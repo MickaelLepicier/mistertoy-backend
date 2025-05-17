@@ -6,7 +6,8 @@
     "dev": "nodemon --ignore \"./data\" server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server:dev": "nodemon server.js",
-    "server:prod": "set NODE_ENV=production&&node server.js"
+    "server:prod": "set NODE_ENV=production&&node server.js",
+    "server:mac": "export NODE_ENV=production&&node server.js"
   },
   "type": "module",
   "keywords": [],

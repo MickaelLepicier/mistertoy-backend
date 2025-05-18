@@ -1,7 +1,20 @@
 import express from 'express'
-import { log } from '../../middlewares/loggerMiddleware.js'
-import { addToy, addToyMsg, getLabels, getLabelsCount, getToys, getToysById, removeToy, removeToyMsg, updateToy } from './toyController.js'
-import { requireAdmin, requireAuth } from '../../middlewares/requireAuthMiddleware.js'
+import { log } from '../../middlewares/logger.middleware.js'
+import {
+  addToy,
+  addToyMsg,
+  getLabels,
+  getLabelsCount,
+  getToys,
+  getToysById,
+  removeToy,
+  removeToyMsg,
+  updateToy
+} from './toy.controller.js'
+import {
+  requireAdmin,
+  requireAuth
+} from '../../middlewares/requireAuth.middleware.js'
 
 export const toyRoutes = express.Router()
 
@@ -18,7 +31,5 @@ toyRoutes.put('/:toyId', requireAuth, requireAdmin, updateToy)
 toyRoutes.delete('/:toyId', requireAuth, requireAdmin, removeToy)
 
 // **************** Msgs ****************:
-toyRoutes.post('/:toyId/msg',requireAuth, addToyMsg)
+toyRoutes.post('/:toyId/msg', requireAuth, addToyMsg)
 toyRoutes.delete('/:toyId/msg/:msgId', requireAuth, removeToyMsg)
-
-

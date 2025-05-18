@@ -2,9 +2,9 @@ import cookieParser from 'cookie-parser'
 import express from 'express'
 import cors from 'cors'
 import path, { dirname } from 'path'
-import { loggerService } from './services/loggerService.js'
+import { loggerService } from './services/logger.service.js'
 import { fileURLToPath } from 'url'
-import { log } from './middlewares/loggerMiddleware.js'
+import { log } from './middlewares/logger.middleware.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -35,9 +35,9 @@ if (process.env.NODE_ENV === 'production') {
   app.use(cors(corsOptions))
 }
 
-import { authRoutes } from './api/auth/authRoutes.js'
-import { userRoutes } from './api/user/userRoutes.js'
-import { toyRoutes } from './api/toy/toyRoutes.js'
+import { authRoutes } from './api/auth/auth.routes.js'
+import { userRoutes } from './api/user/user.routes.js'
+import { toyRoutes } from './api/toy/toy.routes.js'
 
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)

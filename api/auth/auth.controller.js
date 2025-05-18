@@ -1,5 +1,5 @@
-import { authService } from './authService.js'
-import { loggerService } from '../../services/loggerService.js'
+import { authService } from './auth.service.js'
+import { loggerService } from '../../services/logger.service.js'
 
 export async function login(req, res) {
   const { username, password } = req.body
@@ -26,7 +26,9 @@ export async function signup(req, res) {
     // loggerService.debug(fullname + ', ' + username + ', ' + password)
 
     const account = await authService.signup(username, password, fullname)
-    loggerService.debug(`auth.route - new account created: ` + JSON.stringify(account))
+    loggerService.debug(
+      `auth.route - new account created: ` + JSON.stringify(account)
+    )
 
     const user = await authService.login(username, password)
     const loginToken = authService.getLoginToken(user)

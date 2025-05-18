@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { dbService } from '../../services/db.service.js'
-import { loggerService } from '../../services/loggerService.js'
+import { loggerService } from '../../services/logger.service.js'
 import { makeId, utilService } from '../../services/util.service.js'
 
 const PAGE_SIZE = 6

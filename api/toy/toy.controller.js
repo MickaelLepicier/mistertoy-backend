@@ -1,5 +1,5 @@
-import { toyService } from './toyService.js'
-import { loggerService } from '../../services/loggerService.js'
+import { toyService } from './toy.service.js'
+import { loggerService } from '../../services/logger.service.js'
 
 // **************** Toys ****************:
 export async function getToys(req, res) {

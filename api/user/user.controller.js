@@ -1,6 +1,5 @@
-
-import { userService } from './userService.js'
-import { loggerService } from '../../services/loggerService.js'
+import { userService } from './user.service.js'
+import { loggerService } from '../../services/logger.service.js'
 
 // TODOs:
 // [v] Add user data to mongo
@@ -11,7 +10,7 @@ import { loggerService } from '../../services/loggerService.js'
 export async function getUsers(req, res) {
   try {
     const filterBy = {
-      txt: req.query?.txt || '',
+      txt: req.query?.txt || ''
       // minBalance: +req.query?.minBalance || 0
     }
     const users = await userService.query(filterBy)
@@ -32,8 +31,6 @@ export async function getUser(req, res) {
     res.status(500).send({ err: 'Failed to get user' })
   }
 }
-
-
 
 export async function deleteUser(req, res) {
   try {
@@ -58,8 +55,8 @@ export async function addUser(req, res) {
 }
 
 export async function updateUser(req, res) {
-  console.log('updateUser: ',updateUser)
-  console.log('req.body: ',req.body)
+  console.log('updateUser: ', updateUser)
+  console.log('req.body: ', req.body)
   try {
     const user = req.body
     const savedUser = await userService.update(user)

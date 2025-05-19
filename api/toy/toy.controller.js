@@ -6,6 +6,11 @@ export async function getToys(req, res) {
   try {
     const { filterBy, sortBy, pageIdx } = req.query
 
+    // TODO - maybe I dont need _filterBy, if all the data is in filterBy
+    console.log('filterBy: ', filterBy)
+    console.log('sortBy: ', sortBy)
+    console.log('pageIdx: ', pageIdx)
+
     const _filterBy = {
       txt: filterBy?.txt || '',
       inStock: filterBy?.inStock || undefined,
@@ -18,6 +23,7 @@ export async function getToys(req, res) {
     const _pageIdx = pageIdx ? +req.query.pageIdx : 0
 
     const toys = await toyService.query(_filterBy, _sortBy, _pageIdx)
+    // TODO - check if toys are return json if yes so change send to json()
     res.status(200).send(toys)
   } catch (err) {
     loggerService.error('Failed to get toys', err)
@@ -25,7 +31,7 @@ export async function getToys(req, res) {
   }
 }
 
-export async function getToysById(req, res) {
+export async function getToyById(req, res) {
   try {
     const { toyId } = req.params
     const toy = await toyService.getById(toyId)
@@ -35,10 +41,13 @@ export async function getToysById(req, res) {
     res.status(500).send({ err: 'Failed to get toy' })
   }
 }
-
+// TODO add security - loggedinUser
 export async function addToy(req, res) {
+  const { loggedinUser, body: toy } = req
+
   try {
-    const toy = req.body
+    // const toy = req.body
+    toy.owner = loggedinUser
     const savedToy = await toyService.add(toy)
     res.status(200).send(savedToy)
   } catch (err) {
@@ -48,12 +57,19 @@ export async function addToy(req, res) {
 }
 
 export async function updateToy(req, res) {
+  const { loggedinUser, body: toy } = req
+  const { _id: userId, isAdmin } = loggedinUser
+
+  if (!isAdmin && toy.owner._id !== userId) {
+    return res.status(403).send('Not your toy...')
+  }
+
   try {
     const { toyId } = req.params
-    const toy = { ...req.body, _id: toyId }
-    console.log('updateToy - toy: ', toy)
-    const updateToy = await toyService.update(toy)
-    res.status(200).send(updateToy)
+    const _toy = { ...toy, _id: toyId }
+    console.log('updateToy - _toy: ', _toy)
+    const updatedToy = await toyService.update(_toy)
+    res.status(200).send(updatedToy)
   } catch (err) {
     loggerService.error('Failed to update toy', err)
     res.status(500).send({ err: 'Failed to update toy' })
@@ -108,7 +124,7 @@ export async function addToyMsg(req, res) {
       by: { _id, fullname }
     }
     const addedMsg = await toyService.addMsg(toyId, msg)
-    res.json(addedMsg)
+    res.status(200).send(addedMsg)
   } catch (err) {
     loggerService.error('Failed to update toy', err)
     res.status(500).send({ err: 'Failed to update toy' })

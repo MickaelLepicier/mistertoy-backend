@@ -6,7 +6,7 @@ import {
   getLabels,
   getLabelsCount,
   getToys,
-  getToysById,
+  getToyById,
   removeToy,
   removeToyMsg,
   updateToy
@@ -25,7 +25,7 @@ toyRoutes.get('/labels', getLabels)
 toyRoutes.get('/labels/count', getLabelsCount)
 
 // **************** Toys ****************:
-toyRoutes.get('/:toyId', getToysById)
+toyRoutes.get('/:toyId', getToyById)
 toyRoutes.post('/', requireAuth, requireAdmin, addToy)
 toyRoutes.put('/:toyId', requireAuth, requireAdmin, updateToy)
 toyRoutes.delete('/:toyId', requireAuth, requireAdmin, removeToy)

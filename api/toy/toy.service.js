@@ -2,9 +2,9 @@ import { ObjectId } from 'mongodb'
 import { dbService } from '../../services/db.service.js'
 import { loggerService } from '../../services/logger.service.js'
 import { makeId, utilService } from '../../services/util.service.js'
+import { asyncLocalStorage } from '../../services/als.service.js'
 
 const PAGE_SIZE = 6
-const dbName = 'toy_db'
 
 // const toys = utilService.readJsonFile('data/toy.json')
 const labels = [
@@ -35,7 +35,7 @@ async function query(filterBy = {}, sortBy = {}, pageIdx) {
     const criteria = _buildCriteria(filterBy)
     const sortOptions = _buildSort(sortBy)
 
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('toy_db')
     const skip = pageIdx !== undefined ? pageIdx * PAGE_SIZE : 0
 
     const filteredToys = await collection
@@ -65,7 +65,7 @@ async function getById(toyId) {
       throw new Error('Invalid ObjectId format')
     }
 
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('toy_db')
     const toy = await collection.findOne({
       _id: ObjectId.createFromHexString(toyId)
     })
@@ -77,16 +77,27 @@ async function getById(toyId) {
 }
 
 async function remove(toyId) {
+  const { loggedinUser } = asyncLocalStorage.getStore()
+  const { _id: ownerId, isAdmin } = loggedinUser
+
   try {
     if (!ObjectId.isValid(toyId)) {
       loggerService.error('Invalid ObjectId format')
       throw new Error('Invalid ObjectId format')
     }
 
-    const collection = await dbService.getCollection(dbName)
-    const { deleteCount } = await collection.deleteOne({
-      _id: ObjectId.createFromHexString(toyId)
-    })
+    const criteria = {
+      _id: ObjectId.createFromHexString(toyId),
+  }
+
+  if (!isAdmin) criteria['owner._id'] = ownerId
+
+
+    const collection = await dbService.getCollection('toy_db')
+    const { deleteCount } = await collection.deleteOne(criteria)
+    // const { deleteCount } = await collection.deleteOne({
+    //   _id: ObjectId.createFromHexString(toyId)
+    // })
     return deleteCount
   } catch (err) {
     loggerService.error(`Failed to remove toy ${toyId}`, err)
@@ -97,8 +108,9 @@ async function remove(toyId) {
 async function add(toy) {
   try {
     toy.inStock = true
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('toy_db')
     await collection.insertOne(toy)
+
     return toy
   } catch (err) {
     loggerService.error('Cannot insert toy', err)
@@ -114,7 +126,7 @@ async function update(toy) {
       price,
       labels
     }
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('toy_db')
     await collection.updateOne(
       { _id: ObjectId.createFromHexString(toy._id) },
       { $set: toyToUpdate }
@@ -132,7 +144,7 @@ function getLabels() {
 
 async function getLabelsCount() {
   try {
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('toy_db')
     const toys = await collection.find().toArray()
     const labelCounts = {}
 
@@ -155,7 +167,7 @@ async function addMsg(toyId, msg) {
   try {
     msg.id = makeId()
 
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('toy_db')
     await collection.updateOne(
       { _id: ObjectId.createFromHexString(toyId) },
       { $push: { msgs: msg } }
@@ -169,7 +181,7 @@ async function addMsg(toyId, msg) {
 
 async function removeMsg(toyId, msgId) {
   try {
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('toy_db')
     await collection.updateOne(
       { _id: ObjectId.createFromHexString(toyId) },
       { $pull: { msgs: { id: msgId } } }

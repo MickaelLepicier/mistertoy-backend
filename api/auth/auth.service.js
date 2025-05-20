@@ -19,8 +19,8 @@ async function login(username, password) {
   const user = await userService.getByUsername(username)
   if (!user) throw new Error('Invalid username or password')
 
-  // If I want to login a user without the bcrypt password
-  // put this 2 lines at a comment
+  // If I want to login a user without the bcrypt password put this 2 lines at a comment
+
   // const match = await bcrypt.compare(password, user.password)
   // if (!match) throw new Error('Invalid username or password')
 

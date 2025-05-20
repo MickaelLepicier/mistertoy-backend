@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 
 import { asyncLocalStorage } from '../../services/als.service.js'
-import { logger } from '../../services/logger.service.js'
+import { loggerService } from '../../services/logger.service.js'
 import { dbService } from '../../services/db.service.js'
 
 export const reviewService = { query, remove, add }
@@ -29,29 +29,31 @@ async function query(filterBy = {}) {
             },
             {
                 $lookup: {
-                    localField: 'aboutUserId',
-                    from: 'user_db',
+                    localField: 'aboutToyId',
+                    from: 'toy_db',
                     foreignField: '_id',
-                    as: 'aboutUser',
+                    as: 'aboutToy',
                 },
             },
             {
-                $unwind: '$aboutUser',
+                $unwind: '$aboutToy',
             },
             {
                 $project: {
-                    'txt': true,
-                    'byUser._id': true,
-                    'byUser.fullname': true,
-                    'aboutUser._id': true,
-                    'aboutUser.fullname': true,
+                    txt: true,
+                        createdAt: { $toDate: '$_id' },
+                        'byUser._id': true,
+                        'byUser.fullname': true,
+                        'aboutToy._id': true,
+                        'aboutToy.name': true,
+                        'aboutToy.price': true,
                 }
             }
         ]).toArray()
 
         return reviews
     } catch (err) {
-        logger.error('cannot get reviews', err)
+        loggerService.error('cannot get reviews', err)
         throw err
     }
 }
@@ -71,7 +73,7 @@ async function remove(reviewId) {
         const { deletedCount } = await collection.deleteOne(criteria)
         return deletedCount
     } catch (err) {
-        logger.error(`cannot remove review ${reviewId}`, err)
+        loggerService.error(`cannot remove review ${reviewId}`, err)
         throw err
     }
 }
@@ -80,7 +82,7 @@ async function add(review) {
     try {
         const reviewToAdd = {
             byUserId: ObjectId.createFromHexString(review.byUserId),
-            aboutUserId: ObjectId.createFromHexString(review.aboutUserId),
+            aboutToyId: ObjectId.createFromHexString(review.aboutToyId),
             txt: review.txt,
         }
         const collection = await dbService.getCollection('review_db')
@@ -88,7 +90,7 @@ async function add(review) {
 
         return reviewToAdd
     } catch (err) {
-        logger.error('cannot add review', err)
+        loggerService.error('cannot add review', err)
         throw err
     }
 }
@@ -98,6 +100,10 @@ function _buildCriteria(filterBy) {
 
     if (filterBy.byUserId) {
         criteria.byUserId = ObjectId.createFromHexString(filterBy.byUserId)
+    }
+    
+    if (filterBy.aboutToyId) {
+        criteria.aboutToyId = ObjectId.createFromHexString(filterBy.aboutToyId)
     }
     return criteria
 }

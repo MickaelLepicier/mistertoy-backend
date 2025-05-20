@@ -11,16 +11,9 @@ export async function getToys(req, res) {
     console.log('sortBy: ', sortBy)
     console.log('pageIdx: ', pageIdx)
 
-    const _filterBy = {
-      txt: filterBy?.txt || '',
-      inStock: filterBy?.inStock || undefined,
-      labels: filterBy?.labels ? filterBy.labels.split(',') : []
-    }
-    const _sortBy = {
-      type: sortBy?.sortType || '',
-      desc: sortBy?.sortDesc || 1
-    }
-    const _pageIdx = pageIdx ? +req.query.pageIdx : 0
+    const _filterBy = _createFilterBy(filterBy)
+    const _sortBy = _createSortBy(sortBy)
+    const _pageIdx = +pageIdx || 0
 
     const toys = await toyService.query(_filterBy, _sortBy, _pageIdx)
     // TODO - check if toys are return json if yes so change send to json()
@@ -41,7 +34,7 @@ export async function getToyById(req, res) {
     res.status(500).send({ err: 'Failed to get toy' })
   }
 }
-// TODO add security - loggedinUser
+
 export async function addToy(req, res) {
   const { loggedinUser, body: toy } = req
 
@@ -84,6 +77,21 @@ export async function removeToy(req, res) {
   } catch (err) {
     loggerService.error('Failed to remove toy', err)
     res.status(500).send({ err: 'Failed to remove toy' })
+  }
+}
+
+function _createFilterBy(filterBy) {
+  return {
+    txt: filterBy?.txt || '',
+    inStock: filterBy?.inStock || undefined,
+    labels: filterBy?.labels ? filterBy.labels.split(',') : []
+  }
+}
+
+function _createSortBy(sortBy) {
+  return {
+    type: sortBy?.sortType || '',
+    desc: sortBy?.sortDesc || 1
   }
 }
 

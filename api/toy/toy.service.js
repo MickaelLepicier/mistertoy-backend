@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { dbService } from '../../services/db.service.js'
 import { loggerService } from '../../services/logger.service.js'
-import { makeId, utilService } from '../../services/util.service.js'
+import { makeId } from '../../services/util.service.js'
 import { asyncLocalStorage } from '../../services/als.service.js'
 
 const PAGE_SIZE = 6
@@ -30,6 +30,8 @@ export const toyService = {
   removeMsg
 }
 
+// **************** Toys ****************:
+
 async function query(filterBy = {}, sortBy = {}, pageIdx) {
   try {
     const criteria = _buildCriteria(filterBy)
@@ -37,6 +39,7 @@ async function query(filterBy = {}, sortBy = {}, pageIdx) {
 
     const collection = await dbService.getCollection('toy_db')
     const skip = pageIdx !== undefined ? pageIdx * PAGE_SIZE : 0
+    // const totalCount = await collection.countDocuments(filterCriteria)
 
     const filteredToys = await collection
       .find(criteria)
@@ -59,7 +62,6 @@ async function query(filterBy = {}, sortBy = {}, pageIdx) {
 
 async function getById(toyId) {
   try {
-    // TODO - use zod library for that
     if (!ObjectId.isValid(toyId)) {
       loggerService.error('Invalid ObjectId format')
       throw new Error('Invalid ObjectId format')
@@ -107,6 +109,7 @@ async function remove(toyId) {
 
 async function add(toy) {
   try {
+    toy.createdAt = Date.now()
     toy.inStock = true
     const collection = await dbService.getCollection('toy_db')
     await collection.insertOne(toy)
@@ -138,6 +141,8 @@ async function update(toy) {
   }
 }
 
+// **************** Labels ****************:
+
 function getLabels() {
   return Promise.resolve(labels)
 }
@@ -162,6 +167,8 @@ async function getLabelsCount() {
     throw err
   }
 }
+
+// **************** Msgs ****************:
 
 async function addMsg(toyId, msg) {
   try {

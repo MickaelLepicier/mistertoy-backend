@@ -1,12 +1,6 @@
 import { userService } from './user.service.js'
 import { loggerService } from '../../services/logger.service.js'
 
-// TODOs:
-// [v] Add user data to mongo
-// [] Check If I need to put an addUser function to add user when signup
-// [] Test msgs
-// [] Add Login and Signup pages
-
 export async function getUsers(req, res) {
   try {
     const filterBy = {
@@ -23,8 +17,8 @@ export async function getUsers(req, res) {
 
 export async function getUser(req, res) {
   try {
-    const { id } = req.params
-    const user = await userService.getById(id)
+    const { userId } = req.params
+    const user = await userService.getById(userId)
     res.status(200).send(user)
   } catch (err) {
     loggerService.error('Failed to get user', err)
@@ -34,8 +28,8 @@ export async function getUser(req, res) {
 
 export async function deleteUser(req, res) {
   try {
-    const { id } = req.params
-    await userService.remove(id)
+    const { userId } = req.params
+    await userService.remove(userId)
     res.status(200).send({ msg: 'Deleted successfully' })
   } catch (err) {
     loggerService.error('Failed to delete user', err)
@@ -55,8 +49,6 @@ export async function addUser(req, res) {
 }
 
 export async function updateUser(req, res) {
-  console.log('updateUser: ', updateUser)
-  console.log('req.body: ', req.body)
   try {
     const user = req.body
     const savedUser = await userService.update(user)

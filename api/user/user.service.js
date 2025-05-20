@@ -2,7 +2,7 @@ import { dbService } from '../../services/db.service.js'
 import { loggerService } from '../../services/logger.service.js'
 
 import { ObjectId } from 'mongodb'
-const dbName = 'user_db'
+
 
 export const userService = {
   query,
@@ -16,7 +16,7 @@ export const userService = {
 async function query(filterBy = {}) {
   const criteria = _buildCriteria(filterBy)
   try {
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('user_db')
     var users = await collection.find(criteria).sort({ username: 1 }).toArray()
     users = users.map((user) => {
       delete user.password
@@ -33,7 +33,7 @@ async function query(filterBy = {}) {
 
 async function getById(userId) {
   try {
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('user_db')
     const user = await collection.findOne({
       _id: ObjectId.createFromHexString(userId)
     })
@@ -47,7 +47,7 @@ async function getById(userId) {
 
 async function remove(userId) {
   try {
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('user_db')
     await collection.deleteOne({ _id: ObjectId.createFromHexString(userId) })
   } catch (err) {
     loggerService.error(`Cannot remove user ${userId}`, err)
@@ -72,8 +72,10 @@ async function add(user) {
       isAdmin: false
       // score: user.score || 0,
     }
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('user_db')
     await collection.insertOne(userToAdd)
+    
+    delete userToAdd.password
     return userToAdd
   } catch (err) {
     loggerService.error('Cannot insert user', err)
@@ -83,7 +85,7 @@ async function add(user) {
 
 async function getByUsername(username) {
   try {
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('user_db')
     const user = await collection.findOne({ username })
     return user
   } catch (err) {
@@ -99,7 +101,7 @@ async function update(user) {
     const userId = ObjectId.createFromHexString(_id)
     const userToSave = { username, fullname }
 
-    const collection = await dbService.getCollection(dbName)
+    const collection = await dbService.getCollection('user_db')
     await collection.updateOne({ _id: userId }, { $set: userToSave })
     return { _id: userId, ...userToSave }
   } catch (err) {

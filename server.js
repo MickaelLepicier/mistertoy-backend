@@ -12,6 +12,7 @@ const __dirname = dirname(__filename)
 loggerService.info('server.js loaded...')
 
 const app = express()
+// TODO - // FIX BUG
 // app.use(log)
 
 app.use(express.json())
@@ -49,6 +50,13 @@ app.use('/api/user', userRoutes)
 app.use('/api/review', reviewRoutes)
 app.use('/api/toy', toyRoutes)
 
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", 
+    "default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com");
+  next();
+});
+
+
 //* In production with Render
 app.get('/api/apikey', (req, res) => {
   res.send(process.env.API_KEY)
@@ -56,8 +64,11 @@ app.get('/api/apikey', (req, res) => {
 
 // Fallback
 app.get('/*all', (req, res) => {
-  res.sendFile(path.resolve('public/index.html'))
+  res.sendFile(path.resolve(__dirname, 'public'))
 })
+
+
+
 
 const port = process.env.PORT || 3030
 app.listen(port, () => {

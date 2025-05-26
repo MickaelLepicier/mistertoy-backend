@@ -54,11 +54,14 @@ export async function addReview(req, res) {
     //* Update user score in login token as well
     // const loginToken = authService.getLoginToken(loggedinUser)
     // res.cookie('loginToken', loginToken)
-
     //* prepare the updated review for sending out
+    
+
     review.byUser = loggedinUser
     review.aboutToy = await toyService.getById(aboutToyId)
     review.createdAt = review._id.getTimestamp()
+   
+    console.log('KKKKKK review: ',review)
 
     // review.aboutUser = await userService.getById(aboutUserId)
 

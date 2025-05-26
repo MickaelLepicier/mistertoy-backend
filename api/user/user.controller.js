@@ -16,8 +16,12 @@ export async function getUsers(req, res) {
 }
 
 export async function getUser(req, res) {
+  console.log('FULL URL:', req.originalUrl)
+console.log('PARAMS:', req.params)
+
   try {
     const { userId } = req.params
+  console.log('XXX userId: ',userId)
     const user = await userService.getById(userId)
     res.status(200).send(user)
   } catch (err) {
